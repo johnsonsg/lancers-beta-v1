@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+:root {
+  --brand-primary: #162e50;
+  --brand-secondary: #FF6605;
+  /* --font-family-base: 'Roboto'; */
+}
+
+
+.label {
+  font-size: .8rem;
+  line-height: 1.23077;
+  font-weight: 600;
+  color: #162e50;
+  text-transform: capitalize;
+}
+.DefaultFormField_block {
+  display: block;
+  margin-bottom: 2rem;
+}
