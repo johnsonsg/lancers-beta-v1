@@ -17,8 +17,8 @@ export function wrapRootElement({ element }) {
   const client = new ApolloClient({
     cache: new InMemoryCache(),
     link: createHttpLink({
-      // uri: 'http://localhost:8003/___graphql',
-      uri: 'https://wkuk75c2.api.sanity.io/v1/graphql/production/default',
+      uri: 'http://localhost:8003/___graphql',
+      // uri: 'https://wkuk75c2.api.sanity.io/v1/graphql/production/default',
       fetch,
     }),
   });

@@ -9,15 +9,17 @@ import RecordsStyle from './team-records-style';
 
 export const GET_TEAM_RECORDS = gql`
   query GetRecordsData {
-    allRecords {
-      recordtype
-      title
-      lancerrecords {
-        name
-        recordnumber
-        seasonsplayed
-        player {
+    allSanityRecords {
+      nodes {
+        recordtype
+        title
+        lancerrecords {
           name
+          recordnumber
+          seasonsplayed
+          player {
+            name
+          }
         }
       }
     }
@@ -33,7 +35,7 @@ function TeamRecords() {
 
   useEffect(() => {
     if (!loading && data) {
-      setFilters(data.allRecords);
+      setFilters(data.allSanityRecords.nodes);
     }
     if (error) console.log(error);
   }, [loading, error, data]);
