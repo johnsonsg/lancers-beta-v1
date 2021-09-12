@@ -1,19 +1,35 @@
 import React from 'react';
-import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { ApolloProvider } from '@apollo/client/react';
+import {
+  ApolloClient,
+  createHttpLink,
+  InMemoryCache,
+  ApolloProvider,
+} from '@apollo/client';
+// import { ApolloProvider } from '@apollo/client/react';
 import fetch from 'isomorphic-fetch';
 import Layout from './src/components/layout';
 
-const client = new ApolloClient({
-  cache: new InMemoryCache(),
-  link: new HttpLink({
-    fetch,
-    uri: 'http://localhost:8003/___graphql',
-  }),
-});
+export function wrapPageElement({ element, props }) {
+  return <Layout {...props}>{element}</Layout>;
+}
 
-export const wrapRootElement = ({ element, props }) => (
-  <ApolloProvider client={client}>
-    <Layout {...props}>{element}</Layout>
-  </ApolloProvider>
-);
+export function wrapRootElement({ element }) {
+  const client = new ApolloClient({
+    cache: new InMemoryCache(),
+    link: createHttpLink({
+      // uri: 'http://localhost:8003/___graphql',
+      uri: 'https://wkuk75c2.api.sanity.io/v1/graphql/production/default',
+      fetch,
+    }),
+  });
+
+  if (typeof window !== 'undefined') {
+    return (
+      <ApolloProvider client={client}>
+        <Layout>{element}</Layout>
+      </ApolloProvider>
+    );
+  }
+
+  return null;
+}

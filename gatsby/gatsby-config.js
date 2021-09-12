@@ -32,6 +32,7 @@ module.exports = {
     //     path: path.join(__dirname, `src`, `assets`, `images`),
     //   },
     // },
+    `@apollo/client`,
     `gatsby-plugin-sass`,
     `gatsby-plugin-react-helmet`,
     `html-webpack-plugin`,
