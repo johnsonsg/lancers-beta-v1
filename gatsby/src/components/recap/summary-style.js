@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const SummaryStyle = styled.div`
   .card-header {
     color: var(--darkblue);
-    font-weight: 500;
+    font-weight: 700;
     font-size: 1.1rem;
     text-transform: uppercase;
     font-style: italic;

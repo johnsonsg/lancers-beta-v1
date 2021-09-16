@@ -13,6 +13,7 @@ module.exports = {
     description: 'Manchester Lancers Football Page',
     author: 'Shawn Johnson and Ernie Hawkins',
   },
+  flags: { PRESERVE_WEBPACK_CACHE: true },
   plugins: [
     'gatsby-plugin-styled-components',
     {
@@ -32,7 +33,7 @@ module.exports = {
     //     path: path.join(__dirname, `src`, `assets`, `images`),
     //   },
     // },
-    `@apollo/client`,
+    `@apollo/client`, // Need to add this for apollo graphql to work.
     `gatsby-plugin-sass`,
     `gatsby-plugin-react-helmet`,
     `html-webpack-plugin`,

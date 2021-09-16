@@ -1,9 +1,13 @@
 import React from 'react';
+import { Container } from 'react-bootstrap';
+import TitleDivider from '../components/title-divider/title-divider';
+import Home from '../components/home/home';
 
 export default function HomePage() {
   return (
-    <>
-      <p>Hey! I'm the Home Page!!</p>
-    </>
+    <Container className="py-5">
+      <TitleDivider name="Home" />
+      <Home />
+    </Container>
   );
 }

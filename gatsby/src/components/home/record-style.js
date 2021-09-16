@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const BoxScoreStyle = styled.div`
+const RecordStyle = styled.div`
   .table thead th {
     vertical-align: bottom;
     border-bottom: none !important;
@@ -75,4 +75,4 @@ const BoxScoreStyle = styled.div`
   }
 `;
 
-export default BoxScoreStyle;
+export default RecordStyle;
