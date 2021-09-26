@@ -15,6 +15,7 @@ import venue from './venue';
 import awards from './awards';
 import records from './records';
 import playerposition from './position';
+import standings from './standings';
 import results from '../objects/results/objects_results';
 import hometeamresults from '../objects/results/objects_game_results_home';
 import visitingteamresults from '../objects/results/objects_game_results_visiting';
@@ -61,5 +62,6 @@ export default createSchema({
     playeraward,
     records,
     teamrecords,
+    standings,
   ]),
 });
