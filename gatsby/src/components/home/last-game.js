@@ -205,7 +205,6 @@ function BoxScore() {
                                 <img
                                   src={thehometeam.image.asset.url}
                                   alt="team logo"
-                                  height="85px"
                                 />
                                 <span className="lancers">
                                   {thehometeam.name}

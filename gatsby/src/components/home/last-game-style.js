@@ -51,6 +51,7 @@ const BoxScoreStyle = styled.div`
     }
     img {
       width: 30px;
+      height: auto;
       margin-right: 0.8rem;
     }
   }

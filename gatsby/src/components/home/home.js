@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, gql } from '@apollo/client';
 import { Container, Row, Col } from 'react-bootstrap';
-import Paper from '@material-ui/core/Paper';
+// import Paper from '@material-ui/core/Paper';
 import Sidebar from '../sidebar/sidebar';
 import TeamRecord from './record';
 import BoxScore from './last-game';

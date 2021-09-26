@@ -11,7 +11,8 @@ module.exports = {
     title: `Manchester Lancers Football`,
     siteUrl: 'https://lancers.footbal',
     description: 'Manchester Lancers Football Page',
-    author: 'Shawn Johnson and Ernie Hawkins',
+    author: 'Shawn Johnson',
+    contributors: 'Ernie Hawkins, Joe & Jacob Fehrman',
   },
   flags: { PRESERVE_WEBPACK_CACHE: true },
   plugins: [

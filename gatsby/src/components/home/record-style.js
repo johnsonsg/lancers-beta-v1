@@ -1,6 +1,18 @@
 import styled from 'styled-components';
 
 const RecordStyle = styled.div`
+  .MuiTableCell-body {
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 1rem;
+  }
+  img {
+    max-width: 30px;
+    width: auto;
+    height: auto;
+  }
+  .MuiTableFooter-root {
+    display: none;
+  }
   .table thead th {
     vertical-align: bottom;
     border-bottom: none !important;
@@ -16,62 +28,8 @@ const RecordStyle = styled.div`
     font-style: italic;
     background: white;
   }
-  .qtr-wrapper {
-    padding: 0 5px;
-  }
-  .qtr {
-    background: var(--darkblue);
-    color: var(--white);
-    /* padding: 0.1rem 0.3rem;
-    border-radius: 0.15rem;
-    font-weight: 400; */
-    border-radius: 0.25rem;
-    padding: 0.09rem 0.25rem;
-    font-size: 1rem;
-    font-weight: 700;
-  }
-  .score {
-    color: var(--darkblue);
-    font-size: 1.1rem;
-    /* padding: 0.1rem 0.3rem; */
-    /* font-weight: 400; */
-    font-weight: 500;
-  }
-  .team {
-    font-size: 1rem;
-    font-weight: 400;
-    text-transform: uppercase;
-    color: var(--ltgray);
-    .lancers {
-      font-size: 1rem;
-      font-weight: 900;
-      text-transform: uppercase;
-      color: var(--darkblue);
-      vertical-align: middle;
-    }
-    img {
-      width: 30px;
-      margin-right: 0.8rem;
-    }
-  }
+
   @media (max-width: 576px) {
-    .qtr {
-      padding: 0.2rem 0.3rem;
-      font-size: 0.9rem;
-    }
-    .score {
-      font-size: 0.9rem;
-      font-weight: 600;
-    }
-    .team {
-      font-size: 0.9rem;
-      .lancers {
-        display: none;
-      }
-      img {
-        width: 30px;
-      }
-    }
   }
 `;
 
