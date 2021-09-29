@@ -80,40 +80,24 @@ function PassingStats() {
     }
     if (error) console.log(error);
   }, [loading, error, data]);
-  // console.log('TEST', passing);'
 
-  // // Get Mapped Data
-  // const seasonPassingStats = passing?.map((filter) => [
-  //   filter?.playerpassingstats?.map((filterplayer) => [
-  //     filterplayer?.player[0].name,
-  //     filterplayer?.passyds,
-  //   ]),
-  // ]);
-  // console.log('PASSINGDATA-V1', seasonPassingStats);
+  console.log('TEST', games);
 
   // reduce player passing yards
-  const SeasonTotalPassingYdsByPlayer = games
-    ?.map((filter) => filter.playerpassingstats)
-    .flat()
-    .reduce((acc, person) => {
-      const totalPassingYds = acc[person.player[0].name] || 0;
-      return {
-        ...acc,
-        [person.player[0].name]: totalPassingYds + person.passyds,
-      };
-    }, {});
-  // document.querySelector('.output').innerText = JSON.stringify(
-  //   SeasonTotalPassingYdsByPlayer
-  // );
-  console.log('Total Passing Yds', SeasonTotalPassingYdsByPlayer);
-
-  const fetchPlayers = games
-    ?.map((filter) => filter?.playerpassingstats)
-    .flat()
-    .map((players) => [players?.player[0].name])
-    .flat();
-  const removeDups = [...new Set(fetchPlayers)];
-  console.log('REMOVE DUPS', removeDups);
+  // const SeasonTotalPassingYdsByPlayer = games
+  //   ?.map((filter) => filter.playerpassingstats)
+  //   .flat()
+  //   .reduce((acc, person) => {
+  //     const totalPassingYds = acc[person.player[0].name] || 0;
+  //     return {
+  //       ...acc,
+  //       [person.player[0].name]: totalPassingYds + person.passyds,
+  //     };
+  //   }, {});
+  // // document.querySelector('.output').innerText = JSON.stringify(
+  // //   SeasonTotalPassingYdsByPlayer
+  // // );
+  // console.log('Total Passing Yds', SeasonTotalPassingYdsByPlayer);
 
   return (
     <>
@@ -123,13 +107,13 @@ function PassingStats() {
             <Row>
               <div className="output" />
               <Col className="mb-5">
-                <MUIDataTable
+                {/* <MUIDataTable
                   className="px-2"
-                  data={removeDups}
+                  data={games?.map(() => [`${SeasonTotalPassingYdsByPlayer}`])}
                   title="Lancers Passing Stats"
                   columns={columns}
                   options={options}
-                />
+                /> */}
               </Col>
             </Row>
           </Container>
@@ -143,3 +127,12 @@ export default function Stats() {
   // eslint-disable-next-line react/destructuring-assignment
   return <PassingStats />;
 }
+
+// const fetchPlayers = games
+//   ?.map((filter) => filter?.playerpassingstats)
+//   .flat()
+//   .map((players) => [players?.player[0].name])
+//   .flat();
+// const removeDups = [...new Set(fetchPlayers)];
+
+// console.log('REMOVE DUPS', removeDups);

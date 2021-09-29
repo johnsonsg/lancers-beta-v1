@@ -298,6 +298,51 @@ async function turnCoachesIntoPages({ graphql, actions }) {
     });
   });
 }
+// Turn News into single post pages.
+async function turnNewsIntoPages({ graphql, actions }) {
+  // 1. Get a template for this page
+  const newsTemplate = require.resolve('./src/templates/blog-post.js');
+  // 2. Query all posts from news
+  const { data } = await graphql(`
+    query NewsQuery {
+      news: allSanityNews {
+        nodes {
+          id
+          slug {
+            current
+          }
+          name
+          image {
+            asset {
+              url
+              fluid {
+                src
+              }
+            }
+          }
+          customized {
+            children {
+              text
+            }
+          }
+        }
+      }
+    }
+  `);
+  console.log(data);
+  // 3. Loop over each news posts and create a page for that post
+  data.news.nodes.forEach((post) => {
+    console.log('Creating a page for ', post.name);
+    actions.createPage({
+      // What is the URL for this new page??
+      path: `/post/${post.slug.current}`,
+      component: newsTemplate,
+      context: {
+        slug: post.slug.current,
+      },
+    });
+  });
+}
 
 // 4. pass data
 export async function createPages(params) {
@@ -308,6 +353,7 @@ export async function createPages(params) {
     turnScheduleIntoPages(params),
     turnSeasonsIntoPages(params),
     turnCoachesIntoPages(params),
+    turnNewsIntoPages(params),
   ]);
 }
 

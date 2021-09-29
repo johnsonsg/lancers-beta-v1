@@ -93,7 +93,7 @@ export default function SwipeableTemporaryDrawer() {
               <FaRegNewspaper />
             </ListItemIcon>
             <ListItemText>
-              <Link Link to="/schedule">
+              <Link Link to="/news">
                 News
               </Link>
             </ListItemText>

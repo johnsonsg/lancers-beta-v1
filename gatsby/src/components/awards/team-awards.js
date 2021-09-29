@@ -96,7 +96,7 @@ function TeamAwards() {
     </>
   );
 }
-export default function Stats() {
+export default function Awards() {
   // create custom hook pass it into slug value
   // eslint-disable-next-line react/destructuring-assignment
   return <TeamAwards />;

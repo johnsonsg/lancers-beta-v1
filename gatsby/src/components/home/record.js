@@ -349,7 +349,6 @@ function TeamRecord() {
   // END :: Calculate PA (Total Points Against)
 
   const tab = [0, 1, 1, 1, 0];
-
   const streaks = tab.reduce(
     function (res, n) {
       if (n) res[res.length - 1]++;
@@ -358,7 +357,6 @@ function TeamRecord() {
     },
     [0]
   );
-
   console.log(streaks.join(','));
   console.log(Math.max.apply(Math, streaks));
 
