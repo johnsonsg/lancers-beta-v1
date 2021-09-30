@@ -8,10 +8,14 @@ const StatsStyle = styled.div`
   }
   .MuiTypography-h6 {
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: 700;
     line-height: 1.3;
+    -webkit-letter-spacing: 0.0075em;
+    -moz-letter-spacing: 0.0075em;
+    -ms-letter-spacing: 0.0075em;
     letter-spacing: 0.0075em;
     text-transform: uppercase;
+    color: var(--darkgray);
   }
   .MuiChip-root {
     display: none !important;

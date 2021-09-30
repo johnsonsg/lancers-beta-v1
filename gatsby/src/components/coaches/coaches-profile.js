@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, gql } from '@apollo/client';
 import { Container, Row, Col } from 'react-bootstrap';
+import BlockContent from '@sanity/block-content-to-react';
 import CoachesStyle from './coaches-style';
 import LineElement from '../../assets/images/DiagonalElement.svg';
 
@@ -8,6 +9,8 @@ const COACHES_ROSTERS = gql`
   query GetCoachesData($slug: String!) {
     allSanityCoaches(filter: { slug: { current: { eq: $slug } } }) {
       nodes {
+        id
+        _rawBio
         slug {
           current
         }
@@ -60,6 +63,7 @@ function CoachesProfile({ slug }) {
   const body = coaches?.map((bios) => [
     bios?.bio?.map((info) => [info.children[0].text]),
   ]);
+  const body2 = coaches?.map((bios) => [bios?._rawBio]);
 
   const heroImage = coaches?.map((image) => [`${image.hero.asset.fluid.src}`]);
 
@@ -150,7 +154,10 @@ function CoachesProfile({ slug }) {
                 </Col>
               </Row>
               <Row>
-                <Col className="coachesInfo my-4">{body}</Col>
+                <Col className="coachesInfo my-4">
+                  {/* {body} */}
+                  <BlockContent blocks={coach._rawBio} />
+                </Col>
               </Row>
             </Container>,
           ])}

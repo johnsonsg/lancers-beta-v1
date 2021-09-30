@@ -13,7 +13,7 @@ const GlobalStyles = createGlobalStyle`
     --white: #fff;
     --darkgray: #333C3F;
 
-    
+
 
   body, html{
     background: #EEEEEE;
@@ -22,9 +22,9 @@ const GlobalStyles = createGlobalStyle`
     font-family: 'Mulish', sans-serif;
   }
 
-  p { 
+  p {
     margin-top: 0;
-    margin-bottom: 2rem!important;
+    margin-bottom: 1rem!important;
   }
 
   p:last-child {
@@ -39,7 +39,13 @@ const GlobalStyles = createGlobalStyle`
   section:last-child {
     padding: 5rem 0;
   }
-  
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+    line-height: 1.2rem;
+    margin: 1rem 0 3rem;
+  }
+
   /* MDB Button */
 .btn {
   color: #12284C;
@@ -101,7 +107,7 @@ const GlobalStyles = createGlobalStyle`
   object-position: center;
 }
 
-@media (max-width: 1080px) { 
+@media (max-width: 1080px) {
   .video-background {
     display: block;
     z-index: 1;

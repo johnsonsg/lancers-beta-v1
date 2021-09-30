@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/Button';
 import NewsStyle from './news-style';
 
 export const GET_TEAM_NEWS = gql`
-  query GetAwardsData {
+  query GetNewsData {
     allSanityNews {
       nodes {
         id

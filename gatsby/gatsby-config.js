@@ -41,5 +41,6 @@ module.exports = {
     `webpack`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
+    `@sanity/block-content-to-react`,
   ],
 };
