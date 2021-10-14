@@ -47,7 +47,12 @@ export const GET_PLAYER_STATS = gql`
     #     }
     #   }
     # ) {
-    allSanitySchedules(sort: { fields: order, order: ASC }) {
+    allSanitySchedules(
+      sort: {
+        fields: [playerstats___player___slug___current, order]
+        order: [ASC]
+      }
+    ) {
       nodes {
         id
         title
@@ -232,6 +237,7 @@ const passingColumns = [
     },
   },
 ];
+
 const rushingColumns = [
   {
     name: 'seasons',
@@ -398,25 +404,38 @@ function PlayerStats({ slug }) {
     setrushCols(filteredrushCols);
   };
 
-  // const url = data?.sanityRoster?.slug?.current;
-  // console.log('URL', url);
+  // TESTING MAP
 
-  // const playername = data?.sanityRoster?.name;
-  // console.log('PLAYERSNAME', playername);
+  // const outcome = player?.map(
+  //   (result) => result.hometeamresults.thescore.outcome
+  // );
+  // console.log('OUTCOME', outcome);
 
-  // const gameplayer = player?.map(function (recapplayer) {
-  //   return (
-  //     <div key={recapplayer.id}>
-  //       {recapplayer?.playerpassingstats[0]?.player[0]?.name}
-  //     </div>
-  //   );
+  // const games = player?.map((game) => game.title);
+  // console.log('GAMES', games);
+
+  // const arr = [...new Set(games)];
+  // arr.forEach((letter) => {
+  //   if (letter) {
+  //     console.log('Name:', letter);
+  //   }
   // });
-  // console.log('GAMEPLAYER', gameplayer);
 
-  // const gametitle = player?.map(function (recap) {
-  //   return `${recap?.playerpassingstats[0]?.player[0]?.slug.current}`;
+  const getSeasons = player?.map((y) => y.seasons[0].name);
+  // const arr = [...new Set(getSeasons)];
+  // arr.forEach((year) => {
+  console.log('YEAR', getSeasons);
   // });
-  // console.log('GAMETITLE', gametitle);
+
+  const passAttCondition = player?.map((x) => x.playerpassingstats).flat();
+  console.log('PASS CONDITION', passAttCondition);
+
+  // <MUIDataTable
+  //   data={passAttCondition?.map((filter) => ['2020', filter?.passatt])}
+  //   title="Passing Stats"
+  //   columns={passcols}
+  //   options={options}
+  // />;
 
   function ShowStats() {
     return (
@@ -437,196 +456,278 @@ function PlayerStats({ slug }) {
     <>
       {loading ? null : (
         <PlayerStyle>
-          <Paper elevation={1} className="my-1">
-            <Container className="px-0 my-1">
-              <Row>
-                <Col className="mx-2 mt-4 mb-0">
-                  <ShowStats />
-                </Col>
-              </Row>
-              <Row className="mt-5">
-                <Col>
-                  <MUIDataTable
-                    data={player?.map((filter) => [
-                      filter.seasons[0].name === null
-                        ? ''
-                        : `${filter.seasons[0].name}`,
-                      // filter.week[5] === null ? '' : `${filter.week[5]}`,
-                      filter.week === null ? '' : `${filter.week}`,
-                      filter?.hometeamresults?.homeTeam?.map((team) => [
-                        team.name === 'Manchester'
-                          ? filter?.visitingteamresults?.visitingTeam?.map(
-                              (visitor) => [`${visitor.name}`]
-                            )
-                          : `@ ${team.name}`,
-                      ]),
-                      filter?.hometeamresults?.homeTeam?.map((hometeam) => [
-                        hometeam.name &&
-                          filter?.visitingteamresults?.visitingTeam?.map(
-                            (awayteam) => [
-                              awayteam.name === 'Manchester'
-                                ? `${filter.visitingteamresults.thescore.outcome}`
-                                : `${filter.hometeamresults.thescore.outcome}`,
-                            ]
-                          ),
-                      ]),
-                      `
-                        ${filter.visitingteamresults.thescore.final}
-                        -
-                        ${filter.hometeamresults.thescore.final}
-                        `,
+          <ShowStats />
+          {/* PASSING STATS */}
+          {player
+            ?.map((filtered) => [
+              filtered?.playerpassingstats?.map((filters) => [
+                data?.sanityRoster?.slug?.current ===
+                filters?.player[0]?.slug?.current ? (
+                  <Paper elevation={1} className="my-1">
+                    <Container className="px-0 my-1">
+                      <Row className="mt-5">
+                        <Col className="mt-4">
+                          <MUIDataTable
+                            data={player?.map((filter) => [
+                              // GET SEASONS
+                              filter?.playerpassingstats?.map((person) =>
+                                person?.player[0]?.slug?.current ===
+                                data?.sanityRoster?.slug?.current
+                                  ? `${filter.seasons[0].name}`
+                                  : ''
+                              ),
 
-                      // Get Pass ATT
-                      filter?.playerpassingstats?.map((filters) => [
-                        filters?.player[0]?.slug?.current ===
-                        data?.sanityRoster?.slug?.current
-                          ? filters.passatt === null
-                            ? ''
-                            : `${filters.passatt}`
-                          : '',
-                      ]),
+                              // GET WEEK
+                              filter?.playerpassingstats?.map((person) =>
+                                person?.player[0]?.slug?.current ===
+                                data?.sanityRoster?.slug?.current
+                                  ? `${filter.week}`
+                                  : ''
+                              ),
 
-                      // Get Pass Comp
-                      filter?.playerpassingstats?.map((filters) => [
-                        filters?.player[0]?.slug?.current ===
-                        data?.sanityRoster?.slug?.current
-                          ? filters.passcomp === null
-                            ? ''
-                            : `${filters.passcomp}`
-                          : '',
-                      ]),
-                      // Get Pass Yds
-                      filter?.playerpassingstats?.map((filters) => [
-                        filters?.player[0]?.slug?.current ===
-                        data?.sanityRoster?.slug?.current
-                          ? filters.passyds === null
-                            ? ''
-                            : `${filters.passyds}`
-                          : '',
-                      ]),
-                      // Get Pass TD
-                      filter?.playerpassingstats?.map((filters) => [
-                        filters?.player[0]?.slug?.current ===
-                        data?.sanityRoster?.slug?.current
-                          ? filters.passtd === null
-                            ? ''
-                            : `${filters.passtd}`
-                          : '',
-                      ]),
-                      // Get Pass Int
-                      filter?.playerpassingstats?.map((filters) => [
-                        filters?.player[0]?.slug?.current ===
-                        data?.sanityRoster?.slug?.current
-                          ? filters.passint === null
-                            ? ''
-                            : `${filters.passint}`
-                          : '',
-                      ]),
+                              // Get Oppenent
+                              filter?.hometeamresults?.homeTeam?.map((team) => [
+                                team.name === 'Manchester'
+                                  ? filter?.visitingteamresults?.visitingTeam?.map(
+                                      (visitor) => [`${visitor.name}`]
+                                    )
+                                  : `@ ${team.name}`,
+                              ]),
 
-                      // Get Percentage
-                      filter?.playerpassingstats?.map((filters) => [
-                        filters?.player[0]?.slug?.current ===
-                        data?.sanityRoster?.slug?.current
-                          ? filters.passcomp === null
-                            ? ''
-                            : `${Math.round(
-                                `${
-                                  (`${filters.passcomp}` /
-                                    `${filters.passatt}`) *
-                                  100
-                                }`
-                              )}%`
-                          : '',
-                      ]),
-                    ])}
-                    title="Passing Stats"
-                    columns={passcols}
-                    options={options}
-                  />
-                </Col>
-              </Row>
+                              // Get Results of Game
+                              filter?.hometeamresults?.homeTeam?.map(
+                                (hometeam) => [
+                                  hometeam.name &&
+                                    filter?.visitingteamresults?.visitingTeam?.map(
+                                      (awayteam) => [
+                                        awayteam.name === 'Manchester'
+                                          ? `${filter.visitingteamresults.thescore.outcome}`
+                                          : `${filter.hometeamresults.thescore.outcome}`,
+                                      ]
+                                    ),
+                                ]
+                              ),
 
-              <Row className="mt-5">
-                <Col>
-                  <MUIDataTable
-                    data={player?.map((filter) => [
-                      // for each game that has stats and those stats has a player return
-                      // If game has player
-                      // if player has stats return stats
-                      filter.seasons[0].name === null
-                        ? ''
-                        : `${filter.seasons[0].name}`,
-                      filter.week[5] === null ? '' : `${filter.week[5]}`,
-                      filter?.hometeamresults?.homeTeam?.map((team) => [
-                        team.name === 'Manchester'
-                          ? filter?.visitingteamresults?.visitingTeam?.map(
-                              (visitor) => [`${visitor.name}`]
-                            )
-                          : `@ ${team.name}`,
-                      ]),
-                      filter?.hometeamresults?.homeTeam?.map((hometeam) => [
-                        hometeam.name &&
-                          filter?.visitingteamresults?.visitingTeam?.map(
-                            (awayteam) => [
-                              awayteam.name === 'Manchester'
-                                ? `${filter.visitingteamresults.thescore.outcome}`
-                                : `${filter.hometeamresults.thescore.outcome}`,
-                            ]
-                          ),
-                      ]),
-                      `
-                        ${filter.visitingteamresults.thescore.final}
-                        -
-                        ${filter.hometeamresults.thescore.final}
-                        `,
+                              // Get Score
+                              `${
+                                filter.visitingteamresults.thescore.final ===
+                                null
+                                  ? ''
+                                  : filter.visitingteamresults.thescore.final
+                              } - ${
+                                filter.hometeamresults.thescore.final === null
+                                  ? ''
+                                  : filter.hometeamresults.thescore.final
+                              }`,
 
-                      // Get Rush Yds
-                      filter?.playerrushingstats?.map((filters) => [
-                        filters?.player[0]?.slug?.current ===
-                        data?.sanityRoster?.slug?.current
-                          ? filters.rushyds === null
-                            ? ''
-                            : `${filters.rushyds}`
-                          : '',
-                      ]),
-                      // Get Rush Att
-                      filter?.playerrushingstats?.map((filters) => [
-                        filters?.player[0]?.slug?.current ===
-                        data?.sanityRoster?.slug?.current
-                          ? filters.rushatt === null
-                            ? ''
-                            : `${filters.rushatt}`
-                          : '',
-                      ]),
-                      // Get Rush Td
-                      filter?.playerrushingstats?.map((filters) => [
-                        filters?.player[0]?.slug?.current ===
-                        data?.sanityRoster?.slug?.current
-                          ? filters.rushtd === null
-                            ? ''
-                            : `${filters.rushtd}`
-                          : '',
-                      ]),
-                      // Get Rush Yds Avg %
-                      filter?.playerrushingstats?.map((filters) => [
-                        filters?.player[0]?.slug?.current ===
-                        data?.sanityRoster?.slug?.current
-                          ? filters.rushyds === null
-                            ? ''
-                            : `${Math.round(
-                                `${`${filters.rushyds}` / `${filters.rushatt}`}`
-                              )}`
-                          : '',
-                      ]),
-                    ])}
-                    title="Rushing Stats"
-                    columns={rushcols}
-                    options={options}
-                  />
-                </Col>
-              </Row>
-            </Container>
-          </Paper>
+                              // GET PASS ATT
+                              filter?.playerpassingstats?.map((person) =>
+                                person?.player[0]?.slug?.current ===
+                                data?.sanityRoster?.slug?.current
+                                  ? person.passatt !== null
+                                    ? `${person.passatt}`
+                                    : ''
+                                  : ''
+                              ),
+
+                              // GET PASS COMP
+                              filter?.playerpassingstats?.map((person) =>
+                                person?.player[0]?.slug?.current ===
+                                data?.sanityRoster?.slug?.current
+                                  ? person.passcomp !== null
+                                    ? `${person.passcomp}`
+                                    : ''
+                                  : ''
+                              ),
+
+                              // GET PASS YDS
+                              filter?.playerpassingstats?.map((person) =>
+                                person?.player[0]?.slug?.current ===
+                                data?.sanityRoster?.slug?.current
+                                  ? person.passyds !== null
+                                    ? `${person.passyds}`
+                                    : ''
+                                  : ''
+                              ),
+
+                              // GET PASS TD
+                              filter?.playerpassingstats?.map((person) =>
+                                person?.player[0]?.slug?.current ===
+                                data?.sanityRoster?.slug?.current
+                                  ? person.passtd !== null
+                                    ? `${person.passtd}`
+                                    : ''
+                                  : ''
+                              ),
+
+                              // GET PASS INT
+                              filter?.playerpassingstats?.map((person) =>
+                                person?.player[0]?.slug?.current ===
+                                data?.sanityRoster?.slug?.current
+                                  ? person.passint !== null
+                                    ? `${person.passint}`
+                                    : ''
+                                  : ''
+                              ),
+
+                              // GET COMP PERCENTAGE
+                              filter?.playerpassingstats?.map((person) =>
+                                person?.player[0]?.slug?.current ===
+                                data?.sanityRoster?.slug?.current
+                                  ? person.passcomp !== null
+                                    ? `${Math.round(
+                                        `${
+                                          (`${person.passcomp}` /
+                                            `${person.passatt}`) *
+                                          100
+                                        }`
+                                      )}%`
+                                    : ''
+                                  : ''
+                              ),
+                            ])}
+                            title="Passing Stats"
+                            columns={passcols}
+                            options={options}
+                          />
+                        </Col>
+                      </Row>
+                    </Container>
+                  </Paper>
+                ) : (
+                  ''
+                ),
+              ]),
+            ])
+            .reduce(function (results, item) {
+              return item;
+            }, {})}
+
+          {/* RUSHING STATS */}
+          {player
+            ?.map((filtered) => [
+              filtered?.playerpassingstats?.map((filters) => [
+                data?.sanityRoster?.slug?.current ===
+                filters?.player[0]?.slug?.current ? (
+                  <Paper elevation={1} className="my-1">
+                    <Container className="px-0 my-1">
+                      <Row className="mt-5">
+                        <Col className="mt-4">
+                          <MUIDataTable
+                            data={player?.map((filter) => [
+                              // GET SEASONS
+                              filter?.playerrushingstats?.map((person) =>
+                                person?.player[0]?.slug?.current ===
+                                data?.sanityRoster?.slug?.current
+                                  ? `${filter.seasons[0].name}`
+                                  : ''
+                              ),
+
+                              // GET WEEK
+                              filter?.playerrushingstats?.map((person) =>
+                                person?.player[0]?.slug?.current ===
+                                data?.sanityRoster?.slug?.current
+                                  ? `${filter.week}`
+                                  : ''
+                              ),
+
+                              // GET OPPONENT
+                              filter?.hometeamresults?.homeTeam?.map((team) => [
+                                team.name === 'Manchester'
+                                  ? filter?.visitingteamresults?.visitingTeam?.map(
+                                      (visitor) => [`${visitor.name}`]
+                                    )
+                                  : `@ ${team.name}`,
+                              ]),
+
+                              // GET RESULTS OF GAME
+                              filter?.hometeamresults?.homeTeam?.map(
+                                (hometeam) => [
+                                  hometeam.name &&
+                                    filter?.visitingteamresults?.visitingTeam?.map(
+                                      (awayteam) => [
+                                        awayteam.name === 'Manchester'
+                                          ? `${filter.visitingteamresults.thescore.outcome}`
+                                          : `${filter.hometeamresults.thescore.outcome}`,
+                                      ]
+                                    ),
+                                ]
+                              ),
+
+                              // GET SCORE
+                              `${
+                                filter.visitingteamresults.thescore.final ===
+                                null
+                                  ? ''
+                                  : filter.visitingteamresults.thescore.final
+                              } - ${
+                                filter.hometeamresults.thescore.final === null
+                                  ? ''
+                                  : filter.hometeamresults.thescore.final
+                              }`,
+
+                              // GET RUSH YDS
+                              filter?.playerrushingstats?.map((person) =>
+                                person?.player[0]?.slug?.current ===
+                                data?.sanityRoster?.slug?.current
+                                  ? person.rushyds !== null
+                                    ? `${person.rushyds}`
+                                    : ''
+                                  : ''
+                              ),
+
+                              // GET RUSH ATT
+                              filter?.playerrushingstats?.map((person) =>
+                                person?.player[0]?.slug?.current ===
+                                data?.sanityRoster?.slug?.current
+                                  ? person.rushatt !== null
+                                    ? `${person.rushatt}`
+                                    : ''
+                                  : ''
+                              ),
+
+                              // GET RUSH TD
+                              filter?.playerrushingstats?.map((person) =>
+                                person?.player[0]?.slug?.current ===
+                                data?.sanityRoster?.slug?.current
+                                  ? person.rushtd !== null
+                                    ? `${person.rushtd}`
+                                    : ''
+                                  : ''
+                              ),
+
+                              // GET RUSH YDS AVG
+                              filter?.playerrushingstats?.map((person) =>
+                                person?.player[0]?.slug?.current ===
+                                data?.sanityRoster?.slug?.current
+                                  ? person.rushyds === null
+                                    ? ''
+                                    : `${Math.round(
+                                        `${
+                                          `${person.rushyds}` /
+                                          `${person.rushatt}`
+                                        }`
+                                      )}`
+                                  : ''
+                              ),
+                            ])}
+                            title="Rushing Stats"
+                            columns={rushcols}
+                            options={options}
+                          />
+                        </Col>
+                      </Row>
+                    </Container>
+                  </Paper>
+                ) : (
+                  ''
+                ),
+              ]),
+            ])
+            .flat()
+            .reduce(function (results, item) {
+              return item;
+            }, 0)}
         </PlayerStyle>
       )}
     </>

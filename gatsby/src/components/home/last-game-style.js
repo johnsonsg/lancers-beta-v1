@@ -44,7 +44,7 @@ const BoxScoreStyle = styled.div`
     color: var(--ltgray);
     .lancers {
       font-size: 1rem;
-      font-weight: 900;
+      font-weight: 700;
       text-transform: uppercase;
       color: var(--darkblue);
       vertical-align: middle;

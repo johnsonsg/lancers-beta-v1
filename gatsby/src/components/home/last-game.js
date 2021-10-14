@@ -108,7 +108,7 @@ function BoxScore() {
       {loading ? null : (
         <LastGameStyle>
           <Container className="px-0 py-4">
-            <Card border="light">
+            <Card border="light" className="shadow-sm">
               <Card.Header>
                 <span className="mr-2">LAST GAME</span>
                 <img src={LineElement} alt="element" />

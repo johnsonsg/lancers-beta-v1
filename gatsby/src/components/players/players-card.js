@@ -5,7 +5,6 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Paper from '@material-ui/core/Paper';
 import { GiAmericanFootballPlayer } from '@react-icons/all-files/gi/GiAmericanFootballPlayer';
 import { Button } from '@material-ui/core';
-import TitleDivider from '../title-divider/title-divider';
 import PlayerStyle from './player-style';
 import Hudl from '../../assets/images/mark-hudl.png';
 import LogoBack from '../../assets/images/lancerfootball_v2.jpeg';
@@ -38,7 +37,6 @@ function PlayersCard({ slug }) {
     <>
       {loading ? null : (
         <PlayerStyle>
-          <TitleDivider name="Team Roster" />
           <Paper elevation={1} className="my-5">
             <Container>
               <Row>
@@ -106,14 +104,18 @@ function PlayersCard({ slug }) {
                         <span className="info-titles">Grade:</span>
                         <span className="info-txt">
                           {player?.map((players) => [
-                            `${players?.playersgrade}`,
+                            players.playersgrade === null
+                              ? ''
+                              : `${players?.playersgrade}`,
                           ])}
                         </span>
                       </Col>
                       <Col xs={6} className="text-left">
                         <span className="info-team">
                           <strong>
-                            {player?.map((players) => [`${players?.team}`])}
+                            {player?.map((players) => [
+                              players.team === null ? '' : `${players?.team}`,
+                            ])}
                           </strong>
                         </span>
                       </Col>
@@ -123,7 +125,9 @@ function PlayersCard({ slug }) {
                         <span className="info-titles">Height:</span>
                         <span className="info-txt">
                           {player?.map((players) => [
-                            `${players?.playerheight}`,
+                            players.playerheight === null
+                              ? ''
+                              : `${players?.playerheight}`,
                           ])}
                         </span>
                       </Col>
@@ -131,7 +135,9 @@ function PlayersCard({ slug }) {
                         <span className="info-titles"> Weight: </span>
                         <span className="info-txt">
                           {player?.map((players) => [
-                            `${players?.playerweight} lbs`,
+                            players.playerweight === null
+                              ? ''
+                              : `${players?.playerweight} lbs`,
                           ])}
                         </span>
                       </Col>

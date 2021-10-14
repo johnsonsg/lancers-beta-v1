@@ -6,8 +6,10 @@ import { Container, Row, Col } from 'react-bootstrap';
 // import Paper from '@material-ui/core/Paper';
 import Sidebar from '../sidebar/sidebar';
 import TeamRecord from './record';
+import News from './news';
 import BoxScore from './last-game';
 import HomeStyle from './home-style';
+import TitleDivider from '../title-divider/title-divider';
 
 export const GET_HOME_PAGE = gql`
   query GetAwardsData {
@@ -58,6 +60,9 @@ function HomePage() {
                 {/* <Paper elevation={1} className="my-3 p-4">
                   <div className="award-card">HOME PAGE</div>
                 </Paper> */}
+                <TitleDivider name="Latest News" />
+                <News />
+                <TitleDivider name="Game Shots" />
               </Col>
               <Col md={4}>
                 <Sidebar />

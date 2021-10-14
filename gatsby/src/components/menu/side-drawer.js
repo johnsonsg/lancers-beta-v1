@@ -66,7 +66,7 @@ export default function SwipeableTemporaryDrawer() {
         onKeyDown={toggleDrawer(anchor, false)}
       >
         <List>
-          <ListItem button>
+          {/* <ListItem button>
             <ListItemIcon>
               <IoIosPeople />
             </ListItemIcon>
@@ -86,7 +86,7 @@ export default function SwipeableTemporaryDrawer() {
                 Sponsors
               </Link>
             </ListItemText>
-          </ListItem>
+          </ListItem> */}
 
           <ListItem button>
             <ListItemIcon>
@@ -110,7 +110,7 @@ export default function SwipeableTemporaryDrawer() {
             </ListItemText>
           </ListItem>
 
-          <ListItem button>
+          {/* <ListItem button>
             <ListItemIcon>
               <FaCameraRetro />
             </ListItemIcon>
@@ -119,7 +119,7 @@ export default function SwipeableTemporaryDrawer() {
                 Photos
               </Link>
             </ListItemText>
-          </ListItem>
+          </ListItem> */}
 
           <ListItem button>
             <ListItemIcon>

@@ -102,7 +102,7 @@ const columns = [
   },
   {
     name: 'win%',
-    label: 'WIN %',
+    label: 'WIN%',
   },
   {
     name: 'home',
@@ -365,7 +365,7 @@ function TeamRecord() {
       {loading ? null : (
         <RecordStyle>
           <Container className="px-0 py-4">
-            <Card border="light">
+            <Card border="light" className="shadow-sm">
               <Card.Header>
                 <span className="mr-2">RECORD</span>
                 <img src={LineElement} alt="element" />
@@ -375,7 +375,7 @@ function TeamRecord() {
                   <MUIDataTable
                     data={record?.map(() => [
                       // 'Lancers',
-                      <img src={MLogo} alt="Logo" />,
+                      <img src={MLogo} alt="Logo" style={{ width: '30px' }} />,
                       `${returnWinTotal} - ${returnLossTotal}`,
                       `${returnWinPercentage}`,
                       `${getHomeWins(record)} - ${getHomeLoss(record)} `,

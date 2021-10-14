@@ -4,10 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { useQuery, gql } from '@apollo/client';
 import { Container, Row, Col } from 'react-bootstrap';
 import MUIDataTable from 'mui-datatables';
-import Paper from '@material-ui/core/Paper';
-import PassingStatsStyle from '../stats/stats-style';
+import RushingStatsStyle from '../stats/stats-style';
 // import GET_PASSING_STATS from '../../data/getScheduleData';
-const GET_PASSING_STATS = gql`
+const GET_RUSHING_STATS = gql`
   query {
     allSanitySchedules {
       nodes {
@@ -15,16 +14,15 @@ const GET_PASSING_STATS = gql`
         seasons {
           name
         }
-        playerpassingstats {
+        playerrushingstats {
           player {
             id
             name
           }
-          passatt
-          passcomp
-          passyds
-          passtd
-          passint
+          rushatt
+          rushavg
+          rushtd
+          rushyds
         }
       }
     }
@@ -46,23 +44,7 @@ const columns = [
     },
   },
   {
-    name: 'passatt',
-    label: 'ATT',
-    options: {
-      filter: false,
-      sort: false,
-    },
-  },
-  {
-    name: 'passcomp',
-    label: 'COMP',
-    options: {
-      filter: false,
-      sort: false,
-    },
-  },
-  {
-    name: 'passyds',
+    name: 'rushyds',
     label: 'YDS',
     options: {
       filter: false,
@@ -70,7 +52,15 @@ const columns = [
     },
   },
   {
-    name: 'passtd',
+    name: 'rushatt',
+    label: 'ATT',
+    options: {
+      filter: false,
+      sort: false,
+    },
+  },
+  {
+    name: 'rushtd',
     label: 'TD',
     options: {
       filter: false,
@@ -78,16 +68,8 @@ const columns = [
     },
   },
   {
-    name: 'passint',
-    label: 'INT',
-    options: {
-      filter: false,
-      sort: false,
-    },
-  },
-  {
-    name: 'pct',
-    label: 'COMP%',
+    name: 'rushavg',
+    label: 'AVG',
     options: {
       filter: false,
       sort: false,
@@ -106,9 +88,9 @@ const options = {
   viewColumns: false,
 };
 
-function PassingStats() {
+function RushingStats() {
   // console.log('SLUG', slug);
-  const { loading, error, data } = useQuery(GET_PASSING_STATS, {
+  const { loading, error, data } = useQuery(GET_RUSHING_STATS, {
     fetchPolicy: 'no-cache',
   });
 
@@ -124,80 +106,68 @@ function PassingStats() {
   console.log('TEST', games);
 
   // reduce player passing yards
-  const SeasonTotalPassingYdsByPlayer = games
-    ?.map((filter) => filter.playerpassingstats)
+  const SeasonTotalRushingByPlayer = games
+    ?.map((filter) => filter.playerrushingstats)
     .flat()
     .reduce((acc, person) => {
-      const totalPassAtt = acc[person.player[0].name]
-        ? acc[person.player[0].name].passAtt
+      const totalRushYds = acc[person.player[0].name]
+        ? acc[person.player[0].name].rushYds
         : 0;
-      const totalPassComp = acc[person.player[0].name]
-        ? acc[person.player[0].name].passComp
+      const totalRushATT = acc[person.player[0].name]
+        ? acc[person.player[0].name].rushAtt
         : 0;
-      const totalPassYds = acc[person.player[0].name]
-        ? acc[person.player[0].name].passYds
-        : 0;
-      const totalPassTD = acc[person.player[0].name]
-        ? acc[person.player[0].name].passTD
-        : 0;
-      const totalPassINT = acc[person.player[0].name]
-        ? acc[person.player[0].name].passINT
+      const totalRushTD = acc[person.player[0].name]
+        ? acc[person.player[0].name].rushTD
         : 0;
       return {
         ...acc,
         [person.player[0].name]: {
-          passAtt: totalPassAtt + person.passatt,
-          passComp: totalPassComp + person.passcomp,
-          passYds: totalPassYds + person.passyds,
-          passTD: totalPassTD + person.passtd,
-          passINT: totalPassINT + person.passint,
+          rushYds: totalRushYds + person.rushyds,
+          rushAtt: totalRushATT + person.rushatt,
+          rushTD: totalRushTD + person.rushtd,
         },
       };
     }, {});
 
-  console.log('Total Passing Yds', SeasonTotalPassingYdsByPlayer);
+  console.log('Total Rushing', SeasonTotalRushingByPlayer);
   // Note: to output in body: {/* <div className="output">
-  // {JSON.stringify(SeasonTotalPassingYdsByPlayer)}
+  // {JSON.stringify(SeasonTotalRushingByPlayer)}
   // </div> */}
-  const playerPassing =
-    SeasonTotalPassingYdsByPlayer &&
-    Object.entries(SeasonTotalPassingYdsByPlayer).map(([key, value]) => ({
+  const playerRushing =
+    SeasonTotalRushingByPlayer &&
+    Object.entries(SeasonTotalRushingByPlayer).map(([key, value]) => ({
       name: key,
       ...value,
     }));
 
-  console.log('PLAYERPASSING', playerPassing);
+  console.log('PLAYERRUSHING', playerRushing);
 
   return (
     <>
       {loading ? null : (
-        <PassingStatsStyle>
-          <Paper elevation={1} className="my-1">
-            <Container className="px-0 my-5">
-              <Row>
-                <Col>
-                  <MUIDataTable
-                    className="px-2 py-4"
-                    data={playerPassing?.map((filter) => [
-                      filter?.name,
-                      filter?.passAtt,
-                      filter?.passComp,
-                      filter?.passYds,
-                      filter?.passTD,
-                      filter?.passINT,
-                      `${Math.round(
-                        `${(`${filter.passComp}` / `${filter.passAtt}`) * 100}`
-                      )}%`,
-                    ])}
-                    title="Lancers Rushing Stats"
-                    columns={columns}
-                    options={options}
-                  />
-                </Col>
-              </Row>
-            </Container>
-          </Paper>
-        </PassingStatsStyle>
+        <RushingStatsStyle>
+          <Container className="px-0 my-0">
+            <Row>
+              <Col>
+                <MUIDataTable
+                  className="px-2 py-4"
+                  data={playerRushing?.map((filter) => [
+                    filter?.name,
+                    filter?.rushYds,
+                    filter?.rushAtt,
+                    filter?.rushTD,
+                    `${Math.round(
+                      `${`${filter.rushYds}` / `${filter.rushAtt}`}`
+                    )}`,
+                  ])}
+                  title="Lancers Rushing Stats"
+                  columns={columns}
+                  options={options}
+                />
+              </Col>
+            </Row>
+          </Container>
+        </RushingStatsStyle>
       )}
     </>
   );
@@ -205,5 +175,5 @@ function PassingStats() {
 export default function Stats() {
   // create custom hook pass it into slug value
   // eslint-disable-next-line react/destructuring-assignment
-  return <PassingStats />;
+  return <RushingStats />;
 }

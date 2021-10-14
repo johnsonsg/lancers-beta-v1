@@ -15,7 +15,7 @@ export default function TitleDivider(props) {
     <DividerStyle>
       <Container className="activemt-5 mb-3">
         <Row className="title-divider">
-          <Col md={2} className="px-md-0">
+          <Col md="auto" className="px-md-0">
             <h2>{Title}</h2>
           </Col>
           <Col md={{ span: 3, offset: 7 }} className="sponsor py-md-0 my-md-0">

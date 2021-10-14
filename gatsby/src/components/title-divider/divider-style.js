@@ -6,10 +6,12 @@ const DividerStyle = styled.div`
 
     h2 {
       font-size: 1rem;
+      font-weight: 800;
       border-bottom: 4px solid var(--orange);
       padding: 1rem 0;
       margin: 0;
       color: var(--darkgray);
+      text-transform: uppercase;
     }
 
     .sponsor {

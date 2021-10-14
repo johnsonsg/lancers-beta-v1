@@ -5,11 +5,11 @@ import { Link } from 'gatsby';
 
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import NewsStyle from './news-style';
+import NewsStyle from '../news/news-style';
 
 export const GET_TEAM_NEWS = gql`
   query GetNewsData {
-    allSanityNews {
+    allSanityNews(limit: 2) {
       nodes {
         id
         slug {
@@ -56,7 +56,7 @@ function TeamNews() {
           <Container className="my-5 px-0">
             <Row>
               {postData?.map((blog) => (
-                <Col md="4">
+                <Col md="6">
                   <Card className="py-3" key={blog.name}>
                     <Card.Img
                       variant="top"

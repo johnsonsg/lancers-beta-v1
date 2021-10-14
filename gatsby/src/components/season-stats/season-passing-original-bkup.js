@@ -156,19 +156,10 @@ function PassingStats() {
 
   console.log('TEST', games);
 
-  const getPassingStats = games
-    ?.map((filterStats) => filterStats.playerpassingstats)
-    .flat();
-  console.log('getPassingStats', getPassingStats);
-  const seasonsArray = games?.map((filters) => filters.seasons[0].name).flat();
-  console.log('SEASONS ARRAY', seasonsArray);
-  const seasonsArrayRMDups = [...new Set(seasonsArray)];
-  console.log('Remove Season Dups', seasonsArrayRMDups);
-
-  getPassingStats?.forEach((person, index) => {
-    console.log('Get Player Name', person.player[0].name);
-  });
-
+  // const seasonsArray = games?.map((filters) => filters.seasons[0].name).flat();
+  // console.log('SEASONS ARRAY', seasonsArray);
+  // // const seasonsArrayRMDups = [...new Set(seasonsArray)];
+  // // console.log('Remove Season Dups', seasonsArrayRMDups);
   // const SeasonTotalPass = games
   //   ?.map((filters) => filters.playerpassingstats)
   //   .flat();
@@ -182,9 +173,9 @@ function PassingStats() {
     ?.map((filter) => filter.playerpassingstats)
     .flat()
     .reduce((acc, person) => {
-      // const years = acc[person.seasons[0].name]
-      //   ? acc[person.seasons[0].name].year
-      //   : '';
+      const years = acc[person.seasons[0].name]
+        ? acc[person.seasons[0].name].year
+        : '';
 
       const totalPassAtt = acc[person.player[0].name]
         ? acc[person.player[0].name].passAtt
@@ -204,7 +195,7 @@ function PassingStats() {
       return {
         ...acc,
         [person.player[0].name]: {
-          // year: years + [person.seasons[0].name],
+          year: years + [person.seasons[0].name],
           passAtt: totalPassAtt + person.passatt,
           passComp: totalPassComp + person.passcomp,
           passYds: totalPassYds + person.passyds,
@@ -255,7 +246,6 @@ function PassingStats() {
 
   const [passcols, setpassCols] = useState(columns);
   const [selectedFilter, setSelectedFilter] = useState(currentYear);
-
   const onFilter = ({ target: { value } }) => {
     setSelectedFilter(value);
     const filteredpassCols = [...passcols];
@@ -274,7 +264,7 @@ function PassingStats() {
       <FormControl variant="outlined" className={classes.formControl}>
         <Select onChange={onFilter} value={selectedFilter}>
           <MenuItem value="All">All</MenuItem>
-          {data.allSanitySeasons.nodes.map((filter) => (
+          {data.allSanitySchedules.nodes[0].seasons.map((filter) => (
             <MenuItem value={filter.name} key={filter.name}>
               {filter.name}
             </MenuItem>
@@ -290,15 +280,12 @@ function PassingStats() {
         <PassingStatsStyle>
           <Container className="px-0 my-0">
             <Row>
-              <Col>
-                <ShowStats />
-              </Col>
-            </Row>
-            <Row>
+              <ShowStats />
               <Col>
                 <MUIDataTable
                   className="px-2 py-4"
                   data={playerPassing?.map((filter) => [
+                    filter?.year,
                     filter?.name,
                     filter?.passAtt,
                     filter?.passComp,
