@@ -16,6 +16,17 @@ export default {
       ],
     },
     {
+      name: 'seasons',
+      title: 'Season',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'seasons' }],
+        },
+      ],
+    },
+    {
       name: 'rushyds',
       type: 'number',
       title: 'YDS',
