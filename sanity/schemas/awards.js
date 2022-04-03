@@ -1,4 +1,4 @@
-import { GiAmericanFootballBall as icon } from '@react-icons/all-files/gi/GiAmericanFootballBall';
+import { BsAward as icon } from '@react-icons/all-files/bs/BsAward';
 
 export default {
   // computer name

@@ -25,10 +25,10 @@ const BoxScoreStyle = styled.div`
     /* padding: 0.1rem 0.3rem;
     border-radius: 0.15rem;
     font-weight: 400; */
-    border-radius: 0.25rem;
+    border-radius: 0.15rem;
     padding: 0.09rem 0.25rem;
-    font-size: 1rem;
-    font-weight: 700;
+    font-size: 0.675rem;
+    font-weight: 500;
   }
   .score {
     color: var(--darkblue);

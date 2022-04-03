@@ -10,6 +10,7 @@ import News from './news';
 import BoxScore from './last-game';
 import HomeStyle from './home-style';
 import TitleDivider from '../title-divider/title-divider';
+import Gallery from '../gallery/gallery';
 
 export const GET_HOME_PAGE = gql`
   query GetAwardsData {
@@ -31,6 +32,27 @@ export const GET_HOME_PAGE = gql`
         }
       }
     }
+    allSanityPhotos {
+      nodes {
+        id
+        name
+        gamephotos {
+          images {
+            asset {
+              url
+              label
+              title
+              id
+              fluid {
+                src
+                srcSet
+                base64
+              }
+            }
+          }
+        }
+      }
+    }
   }
 `;
 
@@ -48,11 +70,15 @@ function HomePage() {
     if (error) console.log(error);
   }, [loading, error, data]);
 
+  const gallery = data?.allSanityPhotos?.nodes;
+
+  console.log('GALLERY', gallery);
   return (
     <>
       {loading ? null : (
         <HomeStyle>
           <Container className="px-0 my-3">
+            {gallery?.map((x) => x.id)}
             <Row>
               <Col md={8}>
                 <BoxScore />
@@ -63,6 +89,7 @@ function HomePage() {
                 <TitleDivider name="Latest News" />
                 <News />
                 <TitleDivider name="Game Shots" />
+                <Gallery />
               </Col>
               <Col md={4}>
                 <Sidebar />

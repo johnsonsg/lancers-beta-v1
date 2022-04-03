@@ -164,6 +164,12 @@ export default {
       type: 'array',
       of: [{ type: 'fgstats' }],
     },
+    {
+      title: 'Gallery',
+      name: 'gamephotos',
+      type: 'array',
+      of: [{ type: 'gallery' }],
+    },
   ],
 
   preview: {

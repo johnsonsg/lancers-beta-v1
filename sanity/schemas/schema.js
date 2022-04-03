@@ -30,6 +30,8 @@ import fgstats from '../objects/stats/objects_fg_stats';
 import teamgamestats from '../objects/stats/objects_team_game_stats';
 import playeraward from '../objects/awards/objects_awards';
 import teamrecords from '../objects/records/objects_records';
+import gallery from '../objects/objects_gallery';
+import photogallery from './gallery';
 
 export default createSchema({
   // We name our schema
@@ -63,5 +65,7 @@ export default createSchema({
     records,
     teamrecords,
     standings,
+    gallery,
+    photogallery,
   ]),
 });

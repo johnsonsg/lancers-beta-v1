@@ -14,7 +14,8 @@
     "@sanity/default-login",
     "@sanity/desk-tool",
     "@sanity/google-maps-input",
-    "order-documents"
+    "order-documents",
+    "media"
   ],
   "env": {
     "development": {

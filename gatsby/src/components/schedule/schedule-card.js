@@ -73,7 +73,7 @@ function Card() {
   };
 
   const classes = useStyles();
-  const [year, setYear] = React.useState(currentYear);
+  const [year, setYear] = React.useState();
   const handleChange = (event) => {
     setYear(event.target.value);
   };
